@@ -21,7 +21,7 @@ def extract_features(img_path, model):
 
 
 # Функція для перетворення вектора фіч на MinHash об'єкт
-def create_minhash(vector, num_perm=128):
+def create_minhash(vector, num_perm=64):
     # Перетворюємо вектор на бінарний формат
     binarizer = Binarizer(threshold=0.0)
     binary_vector = binarizer.fit_transform(vector.reshape(1, -1))[0]
@@ -35,7 +35,7 @@ def create_minhash(vector, num_perm=128):
 
 
 # Завантаження фіч з тренувального набору і збереження в MinHashLSH
-def load_dataset_to_lsh(folder_path, lsh, num_perm=128):
+def load_dataset_to_lsh(folder_path, lsh, num_perm=64):
     labels = []
     for label_folder in os.listdir(folder_path):
         class_path = os.path.join(folder_path, label_folder)
@@ -53,7 +53,7 @@ def load_dataset_to_lsh(folder_path, lsh, num_perm=128):
 
 
 # Ініціалізація MinHashLSH
-num_perm = 128
+num_perm = 64
 lsh = MinHashLSH(threshold=0.5, num_perm=num_perm)
 
 # Завантаження тренувальних фіч у LSH з папки ./Animals
@@ -62,7 +62,7 @@ labels = load_dataset_to_lsh(train_folder, lsh, num_perm)
 
 
 # Функція для ідентифікації зображень з тестової папки ./Test
-def classify_test_images(test_folder, lsh, labels, num_perm=128):
+def classify_test_images(test_folder, lsh, labels, num_perm=64):
     test_results = {}
     label_dict = dict(labels)
 
